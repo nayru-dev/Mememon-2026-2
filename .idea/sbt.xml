@@ -7,8 +7,8 @@
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>
-            <option value="C:\Users\HP\OneDrive\Documentos\universidad\memes\Mememon-2026-2" />
-            <option value="C:\Users\HP\OneDrive\Documentos\universidad\memes\Mememon-2026-2\project" />
+            <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/project" />
           </set>
         </option>
         <option name="sbtVersion" value="1.12.5" />

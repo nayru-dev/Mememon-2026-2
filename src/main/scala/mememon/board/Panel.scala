@@ -17,5 +17,5 @@ abstract class AbstractPanel extends Panel:
   def addNextPanel(panel: Panel): Unit=
     if !_nextPanels.contains(panel) then
       _nextPanels= _nextPanels :+ panel
-
-  class NormalPanel extends AbstractPanel
+  
+class NormalPanel extends AbstractPanel
