@@ -98,3 +98,28 @@ class CombatTurnSchedulerTest extends FunSuite:
     scheduler.addUnit(knight)
     scheduler.increaseActionBars(5.0)
     assertEquals(scheduler.currentTurnUnit, None)
+
+  test("Unregistered unit queries return default safe values"):
+    val rogueUnit = Knight("Unknown", 50, 5, 5)
+    assertEquals(scheduler.currentActionBar(rogueUnit), 0.0)
+    assertEquals(scheduler.hasCompletedActionBar(rogueUnit), false)
+    scheduler.resetActionBar(rogueUnit)
+    assertEquals(scheduler.currentActionBar(rogueUnit), 0.0)
+
+  test("Completed units sorting with equal overflow preserves consistency"):
+    val unitA = Archer("A", 50, 5, 10)
+    val unitB = Archer("B", 50, 5, 10)
+    scheduler.addUnit(unitA)
+    scheduler.addUnit(unitB)
+    scheduler.increaseActionBars(15.0)
+    assertEquals(scheduler.completedUnits.length, 2)
+    assert(scheduler.currentTurnUnit.isDefined)
+
+  test("Branch coverage edge cases in CombatTurnScheduler"):
+    scheduler.addUnit(knight)
+    scheduler.addUnit(knight)
+
+    val outsider = Knight("Outsider", 50, 5, 5)
+    scheduler.resetActionBar(outsider)
+    assertEquals(scheduler.currentActionBar(outsider), 0.0)
+    assertEquals(scheduler.hasCompletedActionBar(outsider), false)
