@@ -28,8 +28,8 @@ class WeaponTest extends FunSuite:
     assertEquals(dagger.name, "Athame")
 
   test("Bow initializes correctly"):
-    assertEquals(bow.attack, 5)
-    assertEquals(bow.weight, 1)
+    assertEquals(bow.attack, 20)
+    assertEquals(bow.weight, 7)
     assertEquals(bow.name, "Arco de luz")
 
   test("Wand initializes correctly"):
