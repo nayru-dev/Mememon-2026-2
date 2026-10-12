@@ -2,9 +2,10 @@ package cl.uchile.dcc
 package mememon.units
 
 import mememon.weapons.Weapon
+import mememon.actions.{Action, Source, Target}
 
 /** Base contract defining the common attributes and behaviors for any combat unit in the game. */
-trait Character:
+trait Character extends Source with Target:
   /** Display name of the unit. */
   val name: String
 
@@ -91,6 +92,9 @@ abstract class AbstractCharacter(
       case Some(w) => w.weight.toDouble
       case None    => 0.0
     weight.toDouble + 0.5 * weaponWeight
+
+  def receiveAction(action: Action, source: Source): Unit =
+    action.execute(source, this)
 
 /** Abstract base class for characters that utilize mana resources.
  *
@@ -191,3 +195,6 @@ class Enemy(
     target.takeDamage(damage)
 
   def maxActionBar: Double = weight.toDouble
+
+  def receiveAction(action: Action, source: Source): Unit =
+    action.execute(source, this)
