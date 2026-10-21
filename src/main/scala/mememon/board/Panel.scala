@@ -2,11 +2,13 @@ package cl.uchile.dcc
 package mememon.board
 
 import mememon.units.Character
+import mememon.exceptions.InvalidMovementException
+
 
 /** Represents a board tile where characters can position themselves. */
 trait Panel:
-  /** Returns the character currently occupying this panel, or None if empty. */
-  def characters: Option[Character]
+  /** Returns or updates the character currently occupying this panel, or None if empty. */
+  var characters: Option[Character]
 
   /** Returns the list of adjacent panels to which a character can move. */
   def nextPanels: List[Panel]
@@ -16,6 +18,8 @@ trait Panel:
    * @param panel the neighboring tile to connect
    */
   def addNextPanel(panel: Panel): Unit
+
+  def moveCharacterTo(target: Panel): Unit
 
 /** Abstract base implementation of a board panel. */
 abstract class AbstractPanel extends Panel:
@@ -29,5 +33,17 @@ abstract class AbstractPanel extends Panel:
     if !_nextPanels.contains(panel) then
       _nextPanels = _nextPanels :+ panel
 
+  def moveCharacterTo(target: Panel): Unit =
+    if !_nextPanels.contains(target) then
+      throw new InvalidMovementException("The target panel is not adjacent to the current panel.")
+
+    characters match
+      case Some(c) =>
+        target.characters = Some(c)
+        characters = None
+      case None =>
+        throw new InvalidMovementException("There is no character on this panel to move.")
+
 /** Represents a standard neutral panel on the board. */
 class NormalPanel extends AbstractPanel
+
