@@ -1,13 +1,13 @@
 package cl.uchile.dcc
 package mememon.board
 
-import mememon.units.Character
+import mememon.units.GameUnit
 import mememon.exceptions.InvalidMovementException
 
 /** Abstract base implementation of a board panel. */
 abstract class AbstractPanel extends Panel:
-  /** Holds the character occupying this tile, initialized to None. */
-  var characters: Option[Character] = None
+  /** Holds the unit occupying this tile, initialized to None. */
+  var characters: Option[GameUnit] = None
   private var _nextPanels: List[Panel] = List.empty
 
   /** @inheritdoc */
@@ -28,4 +28,4 @@ abstract class AbstractPanel extends Panel:
         target.characters = Some(c)
         characters = None
       case None =>
-        throw new InvalidMovementException("There is no character on this panel to move.")
+        throw new InvalidMovementException("There is no unit on this panel to move.")

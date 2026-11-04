@@ -3,7 +3,7 @@ package mememon.players
 
 import munit.FunSuite
 import scala.compiletime.uninitialized
-import mememon.units.Knight
+import mememon.units.{Enemy, Knight}
 
 class PlayerTest extends FunSuite:
   var player: Player= uninitialized
@@ -23,6 +23,17 @@ class PlayerTest extends FunSuite:
   test("Player correctly detects if defeated or alive"):
     assertEquals(player.isDefeated, false)
     assertEquals(defeatedPlayer.isDefeated, true)
+
+  test("Player can control characters and enemies in the same team"):
+    val fallenKnight = Knight("Pepidead", 0, 10, 15)
+    val goblin = Enemy("Goblin", 80, 10, 14, 18)
+    val mixedPlayer = Player("Luigi", List(fallenKnight, goblin))
+
+    assertEquals(mixedPlayer.units, List(fallenKnight, goblin))
+    assertEquals(mixedPlayer.isDefeated, false)
+
+    goblin.takeDamage(80)
+    assertEquals(mixedPlayer.isDefeated, true)
     
   
 

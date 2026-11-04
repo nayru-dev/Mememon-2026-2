@@ -28,10 +28,7 @@ abstract class AbstractCharacter(
   /** @inheritdoc */
   def currentWeapon: Option[Weapon] = _currentWeapon
 
-  /** Inventory of usable items carried by this character.
-   *
-   * @return the list of items currently stored
-   */
+  /** @inheritdoc */
   def inventory: List[Usable] = _inventory
 
   /** @inheritdoc */
@@ -46,7 +43,7 @@ abstract class AbstractCharacter(
     _hp = math.max(0, _hp - actualDamage)
 
   /** @inheritdoc */
-  def attack(target: Character): Unit =
+  def attack(target: GameUnit): Unit =
     val damage = math.max(0, this.attackDamage - target.defense)
     target.takeDamage(damage)
 

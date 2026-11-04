@@ -1,7 +1,6 @@
 package cl.uchile.dcc
 package mememon.units
 
-import mememon.weapons.Weapon
 import mememon.actions.{Action, Source}
 
 /** Represents a non-playable hostile creature on the battlefield.
@@ -18,14 +17,8 @@ class Enemy(
              val defense: Int,
              val weight: Int,
              val attack: Int
-           ) extends Character:
+           ) extends GameUnit:
   private var _hp: Int = math.max(0, initialHp)
-
-  /** Enemies can never hold a weapon.
-   *
-   * @return always None
-   */
-  def currentWeapon: Option[Weapon] = None
 
   /** @inheritdoc */
   def hp: Int = _hp
@@ -42,7 +35,7 @@ class Enemy(
     _hp = math.max(0, _hp - actualDamage)
 
   /** @inheritdoc */
-  def attack(target: Character): Unit =
+  def attack(target: GameUnit): Unit =
     val damage = math.max(0, this.attackDamage - target.defense)
     target.takeDamage(damage)
 

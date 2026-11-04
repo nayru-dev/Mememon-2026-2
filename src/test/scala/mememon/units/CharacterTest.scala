@@ -47,7 +47,6 @@ class CharacterTest extends FunSuite:
     assertEquals(enemy.defense, 10)
     assertEquals(enemy.weight, 14)
     assertEquals(enemy.attackDamage, 18)
-    assertEquals(enemy.currentWeapon, None)
 
   test("Damage calculation and hp reduction"):
     knight.takeDamage(50)

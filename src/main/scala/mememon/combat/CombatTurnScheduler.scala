@@ -3,40 +3,40 @@ package mememon.combat
 
 import scala.collection.mutable
 import scala.collection.mutable.ArrayBuffer
-import mememon.units.Character
+import mememon.units.GameUnit
 
 /** Concrete implementation of the combat turn scheduler.
  *
  * Keeps one action bar per registered unit and orders the ready units by their overflow.
  */
 class CombatTurnScheduler extends TurnScheduler:
-  private val _units: ArrayBuffer[Character] = ArrayBuffer.empty[Character]
-  private val _actionBars: mutable.Map[Character, Double] = mutable.Map.empty[Character, Double]
+  private val _units: ArrayBuffer[GameUnit] = ArrayBuffer.empty[GameUnit]
+  private val _actionBars: mutable.Map[GameUnit, Double] = mutable.Map.empty[GameUnit, Double]
 
   /** @inheritdoc */
-  def addUnit(unit: Character): Unit =
+  def addUnit(unit: GameUnit): Unit =
     if !_units.contains(unit) then
       _units += unit
       _actionBars(unit) = 0.0
 
   /** @inheritdoc */
-  def removeUnit(unit: Character): Unit =
+  def removeUnit(unit: GameUnit): Unit =
     _units -= unit
     _actionBars.remove(unit)
 
   /** @inheritdoc */
-  def units: List[Character] = _units.toList
+  def units: List[GameUnit] = _units.toList
 
   /** @inheritdoc */
-  def maxActionBar(unit: Character): Double =
+  def maxActionBar(unit: GameUnit): Double =
     unit.maxActionBar
 
   /** @inheritdoc */
-  def currentActionBar(unit: Character): Double =
+  def currentActionBar(unit: GameUnit): Double =
     _actionBars.getOrElse(unit, 0.0)
 
   /** @inheritdoc */
-  def resetActionBar(unit: Character): Unit =
+  def resetActionBar(unit: GameUnit): Unit =
     if _units.contains(unit) then
       _actionBars(unit) = 0.0
 
@@ -48,17 +48,17 @@ class CombatTurnScheduler extends TurnScheduler:
         _actionBars(u) = current + amount
 
   /** @inheritdoc */
-  def hasCompletedActionBar(unit: Character): Boolean =
+  def hasCompletedActionBar(unit: GameUnit): Boolean =
     if _units.contains(unit) then
       currentActionBar(unit) >= maxActionBar(unit)
     else
       false
 
   /** @inheritdoc */
-  def completedUnits: List[Character] =
+  def completedUnits: List[GameUnit] =
     val ready = _units.filter(hasCompletedActionBar)
     ready.sortBy(u => -(currentActionBar(u) - maxActionBar(u))).toList
 
   /** @inheritdoc */
-  def currentTurnUnit: Option[Character] =
+  def currentTurnUnit: Option[GameUnit] =
     completedUnits.headOption
