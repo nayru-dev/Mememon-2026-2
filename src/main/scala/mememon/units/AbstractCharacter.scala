@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.items.Usable
 import mememon.weapons.Weapon
 import mememon.actions.{Action, Source}
 
@@ -19,7 +20,7 @@ abstract class AbstractCharacter(
                                 ) extends Character:
   private var _hp: Int = math.max(0, initialHp)
   private var _currentWeapon: Option[Weapon] = None
-  private var _inventory: List[Any] = List.empty
+  private var _inventory: List[Usable] = List.empty
 
   /** @inheritdoc */
   def hp: Int = _hp
@@ -31,7 +32,7 @@ abstract class AbstractCharacter(
    *
    * @return the list of items currently stored
    */
-  def inventory: List[Any] = _inventory
+  def inventory: List[Usable] = _inventory
 
   /** @inheritdoc */
   def attackDamage: Int =
