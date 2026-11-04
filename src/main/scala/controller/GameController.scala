@@ -1,11 +1,10 @@
 package cl.uchile.dcc
 package controller
 
-/**
-  * Controlador principal del juego.
-  * En esta clase debes implementar la lógica que conecta las distintas
-  * entidades de tu modelo, maneja los turnos, y ejecuta las acciones.
-  */
+/** Main controller of the game.
+ *
+ * Connects the model entities, manages the turns and executes the actions.
+ */
 class GameController {
 
 }

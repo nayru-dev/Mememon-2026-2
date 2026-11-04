@@ -1,13 +1,14 @@
 package cl.uchile.dcc
 package mememon.actions
 
-trait Source:
-  def doAction(action: Action, target: Target): Unit=
-    action.execute(this, target)
-
-trait Target:
-  def receiveAction(action: Action, source: Source): Unit
-  
+/** Contract for any action a [[Source]] can perform over a [[Target]]. */
 trait Action:
+  /** Display name of the action. */
   val name: String
+
+  /** Executes the effect of this action.
+   *
+   * @param source the entity performing the action
+   * @param target the entity receiving the action
+   */
   def execute(source: Source, target: Target): Unit

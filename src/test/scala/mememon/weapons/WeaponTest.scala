@@ -1,4 +1,5 @@
-package cl.uchile.dcc.mememon.weapons
+package cl.uchile.dcc
+package mememon.weapons
 
 import munit.FunSuite
 import scala.compiletime.uninitialized

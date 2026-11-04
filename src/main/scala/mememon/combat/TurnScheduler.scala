@@ -1,8 +1,6 @@
 package cl.uchile.dcc
 package mememon.combat
 
-import scala.collection.mutable
-import scala.collection.mutable.ArrayBuffer
 import mememon.units.Character
 
 /** Contract defining the turn scheduler operations in combat. */
@@ -69,48 +67,3 @@ trait TurnScheduler:
    * @return an Option containing the leading character, or None if no unit has finished
    */
   def currentTurnUnit: Option[Character]
-
-/** Concrete implementation of the combat turn scheduler. */
-class CombatTurnScheduler extends TurnScheduler:
-  private val _units: ArrayBuffer[Character] = ArrayBuffer.empty[Character]
-  private val _actionBars: mutable.Map[Character, Double] = mutable.Map.empty[Character, Double]
-
-  def addUnit(unit: Character): Unit =
-    if !_units.contains(unit) then
-      _units += unit
-      _actionBars(unit) = 0.0
-
-  def removeUnit(unit: Character): Unit =
-    _units -= unit
-    _actionBars.remove(unit)
-
-  def units: List[Character] = _units.toList
-
-  def maxActionBar(unit: Character): Double =
-    unit.maxActionBar
-
-  def currentActionBar(unit: Character): Double =
-    _actionBars.getOrElse(unit, 0.0)
-
-  def resetActionBar(unit: Character): Unit =
-    if _units.contains(unit) then
-      _actionBars(unit) = 0.0
-
-  def increaseActionBars(amount: Double): Unit =
-    if amount > 0.0 then
-      for u <- _units do
-        val current = _actionBars.getOrElse(u, 0.0)
-        _actionBars(u) = current + amount
-
-  def hasCompletedActionBar(unit: Character): Boolean =
-    if _units.contains(unit) then
-      currentActionBar(unit) >= maxActionBar(unit)
-    else
-      false
-
-  def completedUnits: List[Character] =
-    val ready = _units.filter(hasCompletedActionBar)
-    ready.sortBy(u => -(currentActionBar(u) - maxActionBar(u))).toList
-
-  def currentTurnUnit: Option[Character] =
-    completedUnits.headOption

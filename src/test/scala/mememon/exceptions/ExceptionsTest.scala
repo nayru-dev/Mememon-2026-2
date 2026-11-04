@@ -1,10 +1,9 @@
 package cl.uchile.dcc
-package mememon
+package mememon.exceptions
 
 import munit.FunSuite
 import mememon.board.NormalPanel
 import mememon.units.Knight
-import mememon.exceptions.InvalidMovementException
 
 class ExceptionsTest extends FunSuite:
 
