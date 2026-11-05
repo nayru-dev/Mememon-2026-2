@@ -17,3 +17,9 @@ trait Character extends GameUnit:
    * @return the list of objects currently stored
    */
   def inventory: List[Usable]
+
+  /** Stores a usable object at the beginning of the inventory.
+   *
+   * @param item the usable object to store
+   */
+  def addToInventory(item: Usable): Unit

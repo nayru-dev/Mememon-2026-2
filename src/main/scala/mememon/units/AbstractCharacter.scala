@@ -32,6 +32,10 @@ abstract class AbstractCharacter(
   def inventory: List[Usable] = _inventory
 
   /** @inheritdoc */
+  def addToInventory(item: Usable): Unit =
+    _inventory = item :: _inventory
+
+  /** @inheritdoc */
   def attackDamage: Int =
     _currentWeapon match
       case Some(w) => w.attack

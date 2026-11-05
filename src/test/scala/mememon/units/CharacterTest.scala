@@ -3,6 +3,7 @@ package mememon.units
 
 import munit.FunSuite
 import scala.compiletime.uninitialized
+import mememon.potions.HealingPotion
 import mememon.weapons.{Sword, Bow}
 
 class CharacterTest extends FunSuite:
@@ -34,6 +35,19 @@ class CharacterTest extends FunSuite:
     assertEquals(knight.inventory, List.empty)
     assertEquals(archer.name, "Robin")
     assertEquals(thief.name, "Locke")
+
+  test("Character stores weapons and potions in its inventory"):
+    val potion = HealingPotion("Small Potion")
+
+    knight.addToInventory(sword)
+    knight.addToInventory(potion)
+
+    assertEquals(knight.inventory, List(potion, sword))
+
+  test("Inventories are not shared between characters"):
+    knight.addToInventory(sword)
+
+    assertEquals(archer.inventory, List.empty)
 
   test("Magic characters initialize correctly with mana"):
     assertEquals(whiteMage.name, "Rosa")
