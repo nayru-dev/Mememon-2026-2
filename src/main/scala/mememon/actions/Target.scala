@@ -48,3 +48,19 @@ trait Target:
    * @throws mememon.exceptions.InvalidActionException if this target cannot receive Meteor
    */
   def receiveMeteor(source: MagicCharacter, damage: Int): Unit
+
+  /** Receives a Healing spell.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   * @throws mememon.exceptions.InvalidActionException if this target cannot receive Healing
+   */
+  def receiveHealing(source: MagicCharacter, damage: Int): Unit
+
+  /** Receives a Purification spell.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   * @throws mememon.exceptions.InvalidActionException if this target cannot receive Purification
+   */
+  def receivePurification(source: MagicCharacter, damage: Int): Unit

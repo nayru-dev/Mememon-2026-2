@@ -33,3 +33,11 @@ abstract class AbstractTarget extends Target:
   /** @inheritdoc */
   def receiveMeteor(source: MagicCharacter, damage: Int): Unit =
     throw new InvalidActionException(s"${source.name} cannot cast Meteor on this target.")
+
+  /** @inheritdoc */
+  def receiveHealing(source: MagicCharacter, damage: Int): Unit =
+    throw new InvalidActionException(s"${source.name} cannot cast Healing on this target.")
+
+  /** @inheritdoc */
+  def receivePurification(source: MagicCharacter, damage: Int): Unit =
+    throw new InvalidActionException(s"${source.name} cannot cast Purification on this target.")

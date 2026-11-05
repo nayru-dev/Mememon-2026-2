@@ -49,7 +49,7 @@ class UsableActionTest extends FunSuite:
 
   test("Characters have four actions and enemies only two"):
     assertEquals(knight.actions.length, 4)
-    assertEquals(whiteMage.actions.length, 4)
+    assertEquals(archer.actions.length, 4)
     assertEquals(enemy.actions.length, 2)
     assertEquals(enemy.findAction("Equip Weapon"), None)
     assertEquals(enemy.findAction("Consume Potion"), None)

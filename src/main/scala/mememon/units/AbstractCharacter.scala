@@ -46,6 +46,14 @@ abstract class AbstractCharacter(
     _equipAction.removePossibleItem(item)
     _consumeAction.removePossibleItem(item)
 
+  /** Heals 20% of the maximum health points plus a quarter of the magical damage.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   */
+  override def receiveHealing(source: MagicCharacter, damage: Int): Unit =
+    heal(maxHp * 20 / 100 + damage / 4)
+
   /** @inheritdoc */
   def restoreManaByPercent(percent: Int): Unit =
     throw new InvalidRequirementException(s"$name is not a magic character, so it has no mana.")

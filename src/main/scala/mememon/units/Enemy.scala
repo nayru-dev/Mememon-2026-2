@@ -31,6 +31,14 @@ class Enemy(
    */
   def maxActionBar: Double = weight.toDouble
 
+  /** Loses 15% of the current health points plus half of the magical damage.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   */
+  override def receivePurification(source: MagicCharacter, damage: Int): Unit =
+    takeDamage(hp * 15 / 100 + damage / 2)
+
   /** @inheritdoc */
   def doAction(action: Action, target: Target): Unit =
     action.executeByEnemy(this, target)
