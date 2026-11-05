@@ -1,6 +1,8 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.weapons.Weapon
+
 /** Represents a Thief physical unit specialized in agility.
  *
  * @param name unit name
@@ -9,4 +11,7 @@ package mememon.units
  * @param weight character weight
  */
 class Thief(name: String, initialHp: Int, defense: Int, weight: Int)
-  extends AbstractCharacter(name, initialHp, defense, weight)
+  extends AbstractCharacter(name, initialHp, defense, weight):
+
+  /** @inheritdoc */
+  protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByThief

@@ -8,4 +8,13 @@ package mememon.weapons
  * @param weight weight value
  */
 class Sword(name: String, attack: Int, weight: Int)
-  extends AbstractWeapon(name, attack, weight)
+  extends AbstractWeapon(name, attack, weight):
+
+  /** @inheritdoc */
+  override def canBeEquippedByKnight: Boolean = true
+
+  /** @inheritdoc */
+  override def canBeEquippedByArcher: Boolean = true
+
+  /** @inheritdoc */
+  override def canBeEquippedByThief: Boolean = true

@@ -141,7 +141,7 @@ class CharacterTest extends FunSuite:
     enemy.attack(trainee)
     assertEquals(trainee.hp, 37)
 
-  test("maxActionBar calculation with and without equipped weapon"):
+  test("maxActionBar calculation without equipped weapon"):
     assertEquals(knight.maxActionBar, 15.0)
     assertEquals(enemy.maxActionBar, 14.0)
 

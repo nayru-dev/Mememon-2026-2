@@ -23,3 +23,10 @@ trait Character extends GameUnit:
    * @param item the usable object to store
    */
   def addToInventory(item: Usable): Unit
+
+  /** Equips a weapon and becomes its owner, replacing the weapon currently equipped.
+   *
+   * @param weapon the weapon to equip
+   * @throws mememon.exceptions.InvalidRequirementException if this character cannot equip the weapon
+   */
+  def equip(weapon: Weapon): Unit

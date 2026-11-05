@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.exceptions.InvalidRequirementException
 import mememon.items.Usable
 import mememon.weapons.Weapon
 
@@ -30,6 +31,20 @@ abstract class AbstractCharacter(
   /** @inheritdoc */
   def addToInventory(item: Usable): Unit =
     _inventory = item :: _inventory
+
+  /** @inheritdoc */
+  def equip(weapon: Weapon): Unit =
+    if !canEquip(weapon) then
+      throw new InvalidRequirementException(s"$name cannot equip ${weapon.name}.")
+    _currentWeapon = Some(weapon)
+    weapon.setOwner(this)
+
+  /** Asks the weapon whether this kind of character can equip it.
+   *
+   * @param weapon the weapon to check
+   * @return true if this character can equip the weapon, false otherwise
+   */
+  protected def canEquip(weapon: Weapon): Boolean
 
   /** @inheritdoc */
   def attackDamage: Int =

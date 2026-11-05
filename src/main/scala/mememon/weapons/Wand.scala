@@ -9,4 +9,13 @@ package mememon.weapons
  * @param magicAttack magical damage capability
  */
 class Wand(name: String, attack: Int, weight: Int, magicAttack: Int)
-  extends AbstractMagicWeapon(name, attack, weight, magicAttack)
+  extends AbstractMagicWeapon(name, attack, weight, magicAttack):
+
+  /** @inheritdoc */
+  override def canBeEquippedByArcher: Boolean = true
+
+  /** @inheritdoc */
+  override def canBeEquippedByBlackMage: Boolean = true
+
+  /** @inheritdoc */
+  override def canBeEquippedByWhiteMage: Boolean = true

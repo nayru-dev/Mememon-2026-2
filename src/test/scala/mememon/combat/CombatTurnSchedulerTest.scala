@@ -20,6 +20,18 @@ class CombatTurnSchedulerTest extends FunSuite:
     enemy = Enemy("Orco", 60, 5, 12, 15)
     sword = Sword("Buster Sword", 25, 10)
 
+  test("Scheduler considers the equipped weapon in the action bar"):
+    knight.equip(sword)
+    scheduler.addUnit(knight)
+
+    assertEquals(scheduler.maxActionBar(knight), 20.0)
+
+    scheduler.increaseActionBars(15.0)
+    assertEquals(scheduler.hasCompletedActionBar(knight), false)
+
+    scheduler.increaseActionBars(5.0)
+    assertEquals(scheduler.hasCompletedActionBar(knight), true)
+
   test("Scheduler starts empty"):
     assertEquals(scheduler.units, List.empty)
     assertEquals(scheduler.currentTurnUnit, None)

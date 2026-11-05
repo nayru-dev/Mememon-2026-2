@@ -1,6 +1,8 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.weapons.Weapon
+
 /** Represents a White Mage unit specializing in restorative magic.
  *
  * @param name unit name
@@ -10,4 +12,7 @@ package mememon.units
  * @param mana starting mana pool
  */
 class WhiteMage(name: String, initialHp: Int, defense: Int, weight: Int, mana: Int)
-  extends AbstractMagicCharacter(name, initialHp, defense, weight, mana)
+  extends AbstractMagicCharacter(name, initialHp, defense, weight, mana):
+
+  /** @inheritdoc */
+  protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByWhiteMage

@@ -19,3 +19,18 @@ abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int
   /** @inheritdoc */
   def setOwner(character: Character): Unit =
     _owner = Some(character)
+
+  /** @inheritdoc */
+  def canBeEquippedByKnight: Boolean = false
+
+  /** @inheritdoc */
+  def canBeEquippedByArcher: Boolean = false
+
+  /** @inheritdoc */
+  def canBeEquippedByThief: Boolean = false
+
+  /** @inheritdoc */
+  def canBeEquippedByBlackMage: Boolean = false
+
+  /** @inheritdoc */
+  def canBeEquippedByWhiteMage: Boolean = false
