@@ -3,7 +3,7 @@ package mememon.weapons
 
 import munit.FunSuite
 import scala.compiletime.uninitialized
-import mememon.units.{Archer, Knight}
+import mememon.units.{Archer, BlackMage, Knight, WhiteMage}
 
 class WeaponTest extends FunSuite:
   var sword: Sword = uninitialized
@@ -65,3 +65,20 @@ class WeaponTest extends FunSuite:
     bow.setOwner(archer)
 
     assertEquals(bow.owner, Some(archer))
+
+  test("Magic weapons know their owner"):
+    val whiteMage = WhiteMage("Gandalf", 70, 8, 6, 60)
+    val blackMage = BlackMage("Saruman", 65, 6, 5, 80)
+
+    wand.setOwner(whiteMage)
+    staff.setOwner(blackMage)
+
+    assertEquals(wand.owner, Some(whiteMage))
+    assertEquals(staff.owner, Some(blackMage))
+
+  test("Setting the owner of a weapon does not affect other weapons"):
+    val knight = Knight("Aragorn", 120, 20, 15)
+
+    sword.setOwner(knight)
+
+    assertEquals(dagger.owner, None)

@@ -49,11 +49,61 @@ class CharacterTest extends FunSuite:
 
     assertEquals(archer.inventory, List.empty)
 
+  test("Magic characters can store usable objects too"):
+    val potion = HealingPotion("Small Potion")
+
+    whiteMage.addToInventory(potion)
+
+    assertEquals(whiteMage.inventory, List(potion))
+    assertEquals(blackMage.inventory, List.empty)
+
+  test("Archer and thief initialize all their attributes"):
+    assertEquals(archer.hp, 90)
+    assertEquals(archer.defense, 10)
+    assertEquals(archer.weight, 10)
+    assertEquals(thief.hp, 85)
+    assertEquals(thief.defense, 12)
+    assertEquals(thief.weight, 8)
+
   test("Magic characters initialize correctly with mana"):
     assertEquals(whiteMage.name, "Gandalf")
+    assertEquals(whiteMage.hp, 70)
+    assertEquals(whiteMage.defense, 8)
+    assertEquals(whiteMage.weight, 6)
     assertEquals(whiteMage.mana, 60)
     assertEquals(blackMage.name, "Saruman")
+    assertEquals(blackMage.hp, 65)
+    assertEquals(blackMage.defense, 6)
+    assertEquals(blackMage.weight, 5)
     assertEquals(blackMage.mana, 80)
+
+  test("Units with negative initial hp start at zero"):
+    val fallenKnight = Knight("Aragorn", -10, 20, 15)
+    val fallenEnemy = Enemy("Orco", -1, 10, 14, 18)
+
+    assertEquals(fallenKnight.hp, 0)
+    assertEquals(fallenEnemy.hp, 0)
+
+  test("Negative damage does not heal a unit that is alive"):
+    knight.takeDamage(-20)
+    assertEquals(knight.hp, 120)
+
+    enemy.takeDamage(-20)
+    assertEquals(enemy.hp, 80)
+
+  test("Enemy can attack another enemy"):
+    val urukHai = Enemy("Uruk-hai", 40, 5, 10, 12)
+
+    enemy.attack(urukHai)
+
+    assertEquals(urukHai.hp, 27)
+
+  test("Attack equal to defense deals no damage"):
+    val shieldedOrc = Enemy("Uruk-hai", 40, 18, 10, 12)
+
+    enemy.attack(shieldedOrc)
+
+    assertEquals(shieldedOrc.hp, 40)
 
   test("Enemy initializes correctly with attack damage"):
     assertEquals(enemy.name, "Orco")

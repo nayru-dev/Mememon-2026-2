@@ -34,6 +34,11 @@ class PlayerTest extends FunSuite:
 
     orc.takeDamage(80)
     assertEquals(mixedPlayer.isDefeated, true)
+
+  test("Player with no units counts as defeated"):
+    val emptyPlayer = Player("Sauron", List.empty)
+
+    assertEquals(emptyPlayer.isDefeated, true)
     
   
 
