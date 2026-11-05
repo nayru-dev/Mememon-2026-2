@@ -100,4 +100,8 @@ class GameController(barIncrement: Double = 1.0):
 
   private def removeDefeatedUnits(): Unit =
     for unit <- _scheduler.units do
-      if unit.hp <= 0 then _scheduler.removeUnit(unit)
+      if unit.hp <= 0 then
+        _scheduler.removeUnit(unit)
+        unit.currentPanel match
+          case Some(panel) => panel.removeUnit(unit)
+          case None        => ()

@@ -135,6 +135,20 @@ class GameControllerTest extends FunSuite:
     assertEquals(controller.units, List(aragorn))
     assertEquals(controller.currentUnit, Some(aragorn))
 
+  test("A defeated unit also leaves its panel"):
+    val panel = NormalPanel(1, 1)
+    val urukHai = Enemy("Uruk-hai", 8, 10, 30, 12)
+    panel.addUnit(urukHai)
+    panel.addUnit(aragorn)
+    controller.addUnit(aragorn)
+    controller.addUnit(urukHai)
+    controller.nextTurn()
+
+    controller.executeAction(attack, urukHai)
+
+    assertEquals(panel.units, List(aragorn))
+    assertEquals(urukHai.currentPanel, None)
+
   test("Meteor can remove several units, including its caster"):
     val saruman = BlackMage("Saruman", 20, 6, 5, 80)
     val urukHai = Enemy("Uruk-hai", 10, 10, 50, 12)
@@ -152,6 +166,7 @@ class GameControllerTest extends FunSuite:
 
     assertEquals(controller.units, List(aragorn))
     assertEquals(controller.currentUnit, Some(aragorn))
+    assertEquals(panel.units, List())
 
   test("An already defeated unit is removed before choosing the turn"):
     orco.takeDamage(80)
