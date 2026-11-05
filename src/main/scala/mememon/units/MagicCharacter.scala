@@ -27,3 +27,13 @@ trait MagicCharacter extends Character:
    * @return true if the next spell is boosted, false otherwise
    */
   def hasSpellBoost: Boolean
+
+  /** Removes the boost of the next spell, because it was already used. */
+  def consumeSpellBoost(): Unit
+
+  /** Computes the magical damage of the next spell, including the boost if there is one.
+   *
+   * @return the magical power of the equipped weapon, increased by 50% if the spell is boosted
+   * @throws mememon.exceptions.InvalidRequirementException if the character has no magic weapon
+   */
+  def magicDamage: Int

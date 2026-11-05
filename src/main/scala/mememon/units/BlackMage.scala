@@ -2,6 +2,7 @@ package cl.uchile.dcc
 package mememon.units
 
 import mememon.actions.{Action, Target}
+import mememon.actions.spells.{MeteorSpell, ThunderSpell}
 import mememon.weapons.Weapon
 
 /** Represents a Black Mage unit specializing in offensive destructive spells.
@@ -14,6 +15,12 @@ import mememon.weapons.Weapon
  */
 class BlackMage(name: String, initialHp: Int, defense: Int, weight: Int, mana: Int)
   extends AbstractMagicCharacter(name, initialHp, defense, weight, mana):
+  private val _thunder: ThunderSpell = new ThunderSpell
+  private val _meteor: MeteorSpell = new MeteorSpell
+
+  /** @inheritdoc */
+  override def actions: List[Action] =
+    _thunder :: _meteor :: super.actions
 
   /** @inheritdoc */
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByBlackMage

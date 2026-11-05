@@ -24,6 +24,13 @@ trait Weapon extends Usable:
    */
   def setOwner(character: Character): Unit
 
+  /** Returns the magical power this weapon gives to spells.
+   *
+   * @return the magical attack points of the weapon
+   * @throws mememon.exceptions.InvalidRequirementException if this is not a magic weapon
+   */
+  def magicPower: Int
+
   /** Indicates whether a knight can equip this weapon.
    *
    * @return true if a knight can equip it, false otherwise

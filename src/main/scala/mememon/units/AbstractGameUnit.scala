@@ -69,3 +69,7 @@ abstract class AbstractGameUnit(
   /** @inheritdoc */
   override def receiveAttack(source: GameUnit): Unit =
     source.attack(this)
+
+  /** @inheritdoc */
+  override def receiveThunder(source: MagicCharacter, damage: Int): Unit =
+    takeDamage(damage)

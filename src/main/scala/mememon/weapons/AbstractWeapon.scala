@@ -2,6 +2,7 @@ package cl.uchile.dcc
 package mememon.weapons
 
 import mememon.actions.{AbstractTarget, ConsumePotionAction, EquipWeaponAction}
+import mememon.exceptions.InvalidRequirementException
 import mememon.units.Character
 
 /** Abstract base implementation for physical weapons.
@@ -13,6 +14,10 @@ import mememon.units.Character
 abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int)
   extends AbstractTarget with Weapon:
   private var _owner: Option[Character] = None
+
+  /** @inheritdoc */
+  def magicPower: Int =
+    throw new InvalidRequirementException(s"$name is not a magic weapon.")
 
   /** @inheritdoc */
   def offerTo(equip: EquipWeaponAction, consume: ConsumePotionAction): Unit =

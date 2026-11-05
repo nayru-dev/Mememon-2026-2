@@ -46,3 +46,14 @@ abstract class AbstractMagicCharacter(
   /** @inheritdoc */
   override def boostNextSpell(): Unit =
     _spellBoost = true
+
+  /** @inheritdoc */
+  def consumeSpellBoost(): Unit =
+    _spellBoost = false
+
+  /** @inheritdoc */
+  def magicDamage: Int =
+    val power = currentWeapon match
+      case Some(weapon) => weapon.magicPower
+      case None         => throw new InvalidRequirementException(s"$name has no weapon to cast spells.")
+    if _spellBoost then power * 3 / 2 else power

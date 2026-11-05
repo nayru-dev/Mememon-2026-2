@@ -1,7 +1,7 @@
 package cl.uchile.dcc
 package mememon.actions
 
-import mememon.units.{Character, GameUnit}
+import mememon.units.{Character, GameUnit, MagicCharacter}
 
 /** Contract for any game entity able to receive actions from a [[Source]]. */
 trait Target:
@@ -32,3 +32,19 @@ trait Target:
    * @throws mememon.exceptions.InvalidActionException if this target cannot be consumed
    */
   def receiveConsume(source: Character): Unit
+
+  /** Receives a Thunder spell.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   * @throws mememon.exceptions.InvalidActionException if this target cannot receive Thunder
+   */
+  def receiveThunder(source: MagicCharacter, damage: Int): Unit
+
+  /** Receives a Meteor spell.
+   *
+   * @param source the mage casting the spell
+   * @param damage the magical damage of the spell
+   * @throws mememon.exceptions.InvalidActionException if this target cannot receive Meteor
+   */
+  def receiveMeteor(source: MagicCharacter, damage: Int): Unit

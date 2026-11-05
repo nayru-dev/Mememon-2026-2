@@ -14,4 +14,7 @@ abstract class AbstractMagicWeapon(
                                     weight: Int,
                                     val magicAttack: Int
                                   ) extends AbstractWeapon(name, attack, weight)
-  with MagicWeapon
+  with MagicWeapon:
+
+  /** @inheritdoc */
+  override def magicPower: Int = magicAttack

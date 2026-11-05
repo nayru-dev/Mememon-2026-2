@@ -2,7 +2,7 @@ package cl.uchile.dcc
 package mememon.board
 
 import mememon.actions.AbstractTarget
-import mememon.units.GameUnit
+import mememon.units.{GameUnit, MagicCharacter}
 import mememon.exceptions.InvalidMovementException
 
 /** Abstract base implementation of a board panel.
@@ -53,3 +53,7 @@ abstract class AbstractPanel(val x: Int, val y: Int) extends AbstractTarget with
     source.currentPanel match
       case Some(origin) => origin.moveUnit(source, this)
       case None         => throw new InvalidMovementException(s"${source.name} is not on the board.")
+
+  /** @inheritdoc */
+  override def receiveMeteor(source: MagicCharacter, damage: Int): Unit =
+    for unit <- _units do unit.takeDamage(damage)

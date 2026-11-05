@@ -2,7 +2,7 @@ package cl.uchile.dcc
 package mememon.actions
 
 import mememon.exceptions.InvalidActionException
-import mememon.units.{Character, GameUnit}
+import mememon.units.{Character, GameUnit, MagicCharacter}
 
 /** Abstract base for targets: by default, they reject every action.
  *
@@ -25,3 +25,11 @@ abstract class AbstractTarget extends Target:
   /** @inheritdoc */
   def receiveConsume(source: Character): Unit =
     throw new InvalidActionException(s"${source.name} cannot consume this target.")
+
+  /** @inheritdoc */
+  def receiveThunder(source: MagicCharacter, damage: Int): Unit =
+    throw new InvalidActionException(s"${source.name} cannot cast Thunder on this target.")
+
+  /** @inheritdoc */
+  def receiveMeteor(source: MagicCharacter, damage: Int): Unit =
+    throw new InvalidActionException(s"${source.name} cannot cast Meteor on this target.")
