@@ -5,8 +5,29 @@ import mememon.units.GameUnit
 
 /** Represents a board tile where units can position themselves. */
 trait Panel:
-  /** Returns or updates the unit currently occupying this panel, or None if empty. */
-  var characters: Option[GameUnit]
+  /** Horizontal coordinate of this panel on the board. */
+  val x: Int
+
+  /** Vertical coordinate of this panel on the board. */
+  val y: Int
+
+  /** Returns the units currently located on this panel.
+   *
+   * @return the units on this panel
+   */
+  def units: List[GameUnit]
+
+  /** Places a unit on this panel, ignoring it if it is already here.
+   *
+   * @param unit the unit to place
+   */
+  def addUnit(unit: GameUnit): Unit
+
+  /** Removes a unit from this panel. It has no effect if the unit is not here.
+   *
+   * @param unit the unit to remove
+   */
+  def removeUnit(unit: GameUnit): Unit
 
   /** Returns the list of adjacent panels to which a unit can move.
    *
@@ -20,9 +41,10 @@ trait Panel:
    */
   def addNextPanel(panel: Panel): Unit
 
-  /** Moves the unit on this panel to an adjacent target panel.
+  /** Moves a unit from this panel to an adjacent target panel.
    *
+   * @param unit the unit to move
    * @param target the adjacent panel where the unit will be moved
-   * @throws mememon.exceptions.InvalidMovementException if the target is not adjacent or this panel is empty
+   * @throws mememon.exceptions.InvalidMovementException if the target is not adjacent or the unit is not on this panel
    */
-  def moveCharacterTo(target: Panel): Unit
+  def moveUnit(unit: GameUnit, target: Panel): Unit
