@@ -18,5 +18,5 @@ class Thief(name: String, initialHp: Int, defense: Int, weight: Int)
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByThief
 
   /** @inheritdoc */
-  def doAction(action: Action, target: Target): Unit =
+  protected def dispatch(action: Action, target: Target): Unit =
     action.executeByThief(this, target)

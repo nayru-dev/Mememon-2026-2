@@ -26,5 +26,5 @@ class WhiteMage(name: String, initialHp: Int, defense: Int, weight: Int, mana: I
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByWhiteMage
 
   /** @inheritdoc */
-  def doAction(action: Action, target: Target): Unit =
+  protected def dispatch(action: Action, target: Target): Unit =
     action.executeByWhiteMage(this, target)

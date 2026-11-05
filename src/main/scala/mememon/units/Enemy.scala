@@ -37,8 +37,9 @@ class Enemy(
    * @param damage the magical damage of the spell
    */
   override def receivePurification(source: MagicCharacter, damage: Int): Unit =
+    requireAliveToReceive()
     takeDamage(hp * 15 / 100 + damage / 2)
 
   /** @inheritdoc */
-  def doAction(action: Action, target: Target): Unit =
+  protected def dispatch(action: Action, target: Target): Unit =
     action.executeByEnemy(this, target)

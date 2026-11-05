@@ -18,5 +18,5 @@ class Knight(name: String, initialHp: Int, defense: Int, weight: Int)
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByKnight
 
   /** @inheritdoc */
-  def doAction(action: Action, target: Target): Unit =
+  protected def dispatch(action: Action, target: Target): Unit =
     action.executeByKnight(this, target)

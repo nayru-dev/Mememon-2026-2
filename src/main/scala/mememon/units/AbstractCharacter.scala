@@ -52,6 +52,7 @@ abstract class AbstractCharacter(
    * @param damage the magical damage of the spell
    */
   override def receiveHealing(source: MagicCharacter, damage: Int): Unit =
+    requireAliveToReceive()
     heal(maxHp * 20 / 100 + damage / 4)
 
   /** @inheritdoc */
@@ -75,6 +76,16 @@ abstract class AbstractCharacter(
    * @return true if this character can equip the weapon, false otherwise
    */
   protected def canEquip(weapon: Weapon): Boolean
+
+  /** Attacks a unit with the equipped weapon.
+   *
+   * @param target the defending unit receiving the attack
+   * @throws mememon.exceptions.InvalidRequirementException if this character has no weapon
+   */
+  override def attack(target: GameUnit): Unit =
+    if _currentWeapon.isEmpty then
+      throw new InvalidRequirementException(s"$name needs a weapon to attack.")
+    super.attack(target)
 
   /** @inheritdoc */
   def attackDamage: Int =

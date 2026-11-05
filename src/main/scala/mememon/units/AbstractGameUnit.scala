@@ -1,8 +1,9 @@
 package cl.uchile.dcc
 package mememon.units
 
-import mememon.actions.{AbstractTarget, Action, AttackAction, MoveAction}
+import mememon.actions.{AbstractTarget, Action, AttackAction, MoveAction, Target}
 import mememon.board.Panel
+import mememon.exceptions.InvalidUnitStateException
 
 /** Abstract implementation of the state and behavior shared by characters and enemies.
  *
@@ -30,6 +31,27 @@ abstract class AbstractGameUnit(
   def findAction(actionName: String): Option[Action] =
     val matches = actions.filter(action => action.name == actionName)
     if matches.isEmpty then None else Some(matches.head)
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    if _hp <= 0 then
+      throw new InvalidUnitStateException(s"$name is defeated and cannot act.")
+    dispatch(action, target)
+
+  /** Asks the action to execute itself on behalf of this kind of unit.
+   *
+   * @param action the action to perform
+   * @param target the entity that receives the action
+   */
+  protected def dispatch(action: Action, target: Target): Unit
+
+  /** Verifies that this unit can still receive actions.
+   *
+   * @throws mememon.exceptions.InvalidUnitStateException if this unit is defeated
+   */
+  protected def requireAliveToReceive(): Unit =
+    if _hp <= 0 then
+      throw new InvalidUnitStateException(s"$name is defeated and cannot receive actions.")
 
   /** @inheritdoc */
   def currentPanel: Option[Panel] = _currentPanel
@@ -68,8 +90,10 @@ abstract class AbstractGameUnit(
 
   /** @inheritdoc */
   override def receiveAttack(source: GameUnit): Unit =
+    requireAliveToReceive()
     source.attack(this)
 
   /** @inheritdoc */
   override def receiveThunder(source: MagicCharacter, damage: Int): Unit =
+    requireAliveToReceive()
     takeDamage(damage)

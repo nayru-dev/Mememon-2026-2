@@ -18,5 +18,5 @@ class Archer(name: String, initialHp: Int, defense: Int, weight: Int)
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByArcher
 
   /** @inheritdoc */
-  def doAction(action: Action, target: Target): Unit =
+  protected def dispatch(action: Action, target: Target): Unit =
     action.executeByArcher(this, target)

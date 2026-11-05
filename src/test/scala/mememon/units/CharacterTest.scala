@@ -130,8 +130,6 @@ class CharacterTest extends FunSuite:
 
   test("Unarmed character attack damage is zero"):
     assertEquals(knight.attackDamage, 0)
-    knight.attack(enemy)
-    assertEquals(enemy.hp, 80)
 
   test("Enemy attack deals physical damage considering defense"):
     enemy.attack(knight)
