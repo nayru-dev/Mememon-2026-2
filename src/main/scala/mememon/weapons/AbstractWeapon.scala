@@ -1,6 +1,8 @@
 package cl.uchile.dcc
 package mememon.weapons
 
+import mememon.units.Character
+
 /** Abstract base implementation for physical weapons.
  *
  * @param name unique name of the weapon
@@ -8,4 +10,12 @@ package mememon.weapons
  * @param weight weight threshold of the weapon
  */
 abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int)
-  extends Weapon
+  extends Weapon:
+  private var _owner: Option[Character] = None
+
+  /** @inheritdoc */
+  def owner: Option[Character] = _owner
+
+  /** @inheritdoc */
+  def setOwner(character: Character): Unit =
+    _owner = Some(character)

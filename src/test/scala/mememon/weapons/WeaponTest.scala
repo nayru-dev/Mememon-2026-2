@@ -3,6 +3,7 @@ package mememon.weapons
 
 import munit.FunSuite
 import scala.compiletime.uninitialized
+import mememon.units.{Archer, Knight}
 
 class WeaponTest extends FunSuite:
   var sword: Sword = uninitialized
@@ -44,3 +45,23 @@ class WeaponTest extends FunSuite:
     assertEquals(staff.weight, 12)
     assertEquals(staff.name, "Bakulon")
     assertEquals(staff.magicAttack, 25)
+
+  test("A new weapon has no owner"):
+    assertEquals(sword.owner, None)
+    assertEquals(staff.owner, None)
+
+  test("A weapon knows its owner"):
+    val knight = Knight("Arthur", 120, 20, 15)
+
+    sword.setOwner(knight)
+
+    assertEquals(sword.owner, Some(knight))
+
+  test("Assigning a new owner replaces the previous one"):
+    val knight = Knight("Arthur", 120, 20, 15)
+    val archer = Archer("Robin", 90, 10, 10)
+
+    bow.setOwner(knight)
+    bow.setOwner(archer)
+
+    assertEquals(bow.owner, Some(archer))
