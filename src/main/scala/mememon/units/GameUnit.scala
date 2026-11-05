@@ -24,8 +24,29 @@ trait GameUnit extends Source with Target:
    */
   def hp: Int
 
-  /** Physical defense points mitigating incoming physical damage. */
-  val defense: Int
+  /** Maximum health points of the unit.
+   *
+   * @return the health points the unit started with, never below zero
+   */
+  def maxHp: Int
+
+  /** Restores health points without exceeding the maximum.
+   *
+   * @param amount quantity of health points to restore
+   */
+  def heal(amount: Int): Unit
+
+  /** Physical defense points mitigating incoming physical damage.
+   *
+   * @return the current defense points
+   */
+  def defense: Int
+
+  /** Permanently increases the defense points of the unit.
+   *
+   * @param amount quantity of defense points to add
+   */
+  def increaseDefense(amount: Int): Unit
 
   /** Base weight of the unit affecting its turn readiness. */
   val weight: Int

@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.weapons
 
+import mememon.actions.{AbstractTarget, ConsumePotionAction, EquipWeaponAction}
 import mememon.units.Character
 
 /** Abstract base implementation for physical weapons.
@@ -10,8 +11,16 @@ import mememon.units.Character
  * @param weight weight threshold of the weapon
  */
 abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int)
-  extends Weapon:
+  extends AbstractTarget with Weapon:
   private var _owner: Option[Character] = None
+
+  /** @inheritdoc */
+  def offerTo(equip: EquipWeaponAction, consume: ConsumePotionAction): Unit =
+    equip.addPossibleItem(this)
+
+  /** @inheritdoc */
+  override def receiveEquip(source: Character): Unit =
+    source.equip(this)
 
   /** @inheritdoc */
   def owner: Option[Character] = _owner

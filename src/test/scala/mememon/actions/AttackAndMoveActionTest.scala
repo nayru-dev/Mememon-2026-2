@@ -38,13 +38,14 @@ class AttackAndMoveActionTest extends FunSuite:
     assertEquals(move.name, "Move")
 
   test("Every unit has the attack and move actions"):
-    assertEquals(knight.actions.length, 2)
     assertEquals(enemy.actions.length, 2)
-    assertEquals(knight.actions.head.name, "Attack")
-    assertEquals(knight.actions.last.name, "Move")
+    assertEquals(enemy.actions.head.name, "Attack")
+    assertEquals(enemy.actions.last.name, "Move")
+    assertEquals(knight.findAction("Attack").get.name, "Attack")
+    assertEquals(knight.findAction("Move").get.name, "Move")
 
   test("A unit finds its actions by name"):
-    assertEquals(knight.findAction("Attack"), Some(knight.actions.head))
+    assertEquals(enemy.findAction("Attack"), Some(enemy.actions.head))
     assertEquals(enemy.findAction("Move"), Some(enemy.actions.last))
 
   test("Searching an unknown action returns None"):

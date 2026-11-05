@@ -8,16 +8,18 @@ import mememon.board.Panel
  *
  * @param name identifier name of the unit
  * @param initialHp initial health points before combat
- * @param defense physical defense value
+ * @param initialDefense initial physical defense value
  * @param weight base weight of the unit
  */
 abstract class AbstractGameUnit(
                                  val name: String,
                                  initialHp: Int,
-                                 val defense: Int,
+                                 initialDefense: Int,
                                  val weight: Int
                                ) extends AbstractTarget with GameUnit:
-  private var _hp: Int = math.max(0, initialHp)
+  private val _maxHp: Int = math.max(0, initialHp)
+  private var _hp: Int = _maxHp
+  private var _defense: Int = initialDefense
   private var _currentPanel: Option[Panel] = None
   private val _actions: List[Action] = List(new AttackAction, new MoveAction)
 
@@ -38,6 +40,21 @@ abstract class AbstractGameUnit(
 
   /** @inheritdoc */
   def hp: Int = _hp
+
+  /** @inheritdoc */
+  def maxHp: Int = _maxHp
+
+  /** @inheritdoc */
+  def heal(amount: Int): Unit =
+    val actualHealing = math.max(0, amount)
+    _hp = math.min(_maxHp, _hp + actualHealing)
+
+  /** @inheritdoc */
+  def defense: Int = _defense
+
+  /** @inheritdoc */
+  def increaseDefense(amount: Int): Unit =
+    _defense = _defense + math.max(0, amount)
 
   /** @inheritdoc */
   def takeDamage(amount: Int): Unit =

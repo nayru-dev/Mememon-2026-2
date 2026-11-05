@@ -2,7 +2,7 @@ package cl.uchile.dcc
 package mememon.actions
 
 import mememon.exceptions.InvalidActionException
-import mememon.units.GameUnit
+import mememon.units.{Character, GameUnit}
 
 /** Abstract base for targets: by default, they reject every action.
  *
@@ -17,3 +17,11 @@ abstract class AbstractTarget extends Target:
   /** @inheritdoc */
   def receiveMove(source: GameUnit): Unit =
     throw new InvalidActionException(s"${source.name} cannot move to this target.")
+
+  /** @inheritdoc */
+  def receiveEquip(source: Character): Unit =
+    throw new InvalidActionException(s"${source.name} cannot equip this target.")
+
+  /** @inheritdoc */
+  def receiveConsume(source: Character): Unit =
+    throw new InvalidActionException(s"${source.name} cannot consume this target.")

@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, ConsumePotionAction, EquipWeaponAction}
 import mememon.exceptions.InvalidRequirementException
 import mememon.items.Usable
 import mememon.weapons.Weapon
@@ -21,6 +22,12 @@ abstract class AbstractCharacter(
   with Character:
   private var _currentWeapon: Option[Weapon] = None
   private var _inventory: List[Usable] = List.empty
+  private val _equipAction: EquipWeaponAction = new EquipWeaponAction
+  private val _consumeAction: ConsumePotionAction = new ConsumePotionAction
+
+  /** @inheritdoc */
+  override def actions: List[Action] =
+    _equipAction :: _consumeAction :: super.actions
 
   /** @inheritdoc */
   def currentWeapon: Option[Weapon] = _currentWeapon
@@ -31,6 +38,21 @@ abstract class AbstractCharacter(
   /** @inheritdoc */
   def addToInventory(item: Usable): Unit =
     _inventory = item :: _inventory
+    item.offerTo(_equipAction, _consumeAction)
+
+  /** @inheritdoc */
+  def removeFromInventory(item: Usable): Unit =
+    _inventory = _inventory.filter(current => current != item)
+    _equipAction.removePossibleItem(item)
+    _consumeAction.removePossibleItem(item)
+
+  /** @inheritdoc */
+  def restoreManaByPercent(percent: Int): Unit =
+    throw new InvalidRequirementException(s"$name is not a magic character, so it has no mana.")
+
+  /** @inheritdoc */
+  def boostNextSpell(): Unit =
+    throw new InvalidRequirementException(s"$name is not a magic character, so it casts no spells.")
 
   /** @inheritdoc */
   def equip(weapon: Weapon): Unit =

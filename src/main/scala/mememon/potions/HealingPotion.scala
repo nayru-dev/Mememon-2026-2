@@ -1,8 +1,14 @@
 package cl.uchile.dcc
 package mememon.potions
 
-/** Consumable common potion that restores a portion of health points.
+import mememon.units.Character
+
+/** Consumable common potion that restores 20% of the maximum health points.
  *
  * @param name display name of the healing potion
  */
-class HealingPotion(name: String) extends AbstractPotion(name)
+class HealingPotion(name: String) extends AbstractPotion(name):
+
+  /** @inheritdoc */
+  protected def applyEffect(source: Character): Unit =
+    source.heal(source.maxHp * 20 / 100)
