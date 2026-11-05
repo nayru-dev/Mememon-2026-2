@@ -17,24 +17,24 @@ class CharacterTest extends FunSuite:
   var bow: Bow = uninitialized
 
   override def beforeEach(context: BeforeEach): Unit =
-    knight = Knight("Arthur", 120, 20, 15)
-    archer = Archer("Robin", 90, 10, 10)
-    thief = Thief("Locke", 85, 12, 8)
-    whiteMage = WhiteMage("Rosa", 70, 8, 6, 60)
-    blackMage = BlackMage("Vivi", 65, 6, 5, 80)
-    enemy = Enemy("Goblin", 80, 10, 14, 18)
+    knight = Knight("Aragorn", 120, 20, 15)
+    archer = Archer("Legolas", 90, 10, 10)
+    thief = Thief("KBarriga", 85, 12, 8)
+    whiteMage = WhiteMage("Gandalf", 70, 8, 6, 60)
+    blackMage = BlackMage("Saruman", 65, 6, 5, 80)
+    enemy = Enemy("Orco", 80, 10, 14, 18)
     sword = Sword("Buster Sword", 30, 10)
     bow = Bow("Hunter Bow", 20, 4)
 
   test("Playable characters initialize correctly"):
-    assertEquals(knight.name, "Arthur")
+    assertEquals(knight.name, "Aragorn")
     assertEquals(knight.hp, 120)
     assertEquals(knight.defense, 20)
     assertEquals(knight.weight, 15)
     assertEquals(knight.currentWeapon, None)
     assertEquals(knight.inventory, List.empty)
-    assertEquals(archer.name, "Robin")
-    assertEquals(thief.name, "Locke")
+    assertEquals(archer.name, "Legolas")
+    assertEquals(thief.name, "KBarriga")
 
   test("Character stores weapons and potions in its inventory"):
     val potion = HealingPotion("Small Potion")
@@ -50,13 +50,13 @@ class CharacterTest extends FunSuite:
     assertEquals(archer.inventory, List.empty)
 
   test("Magic characters initialize correctly with mana"):
-    assertEquals(whiteMage.name, "Rosa")
+    assertEquals(whiteMage.name, "Gandalf")
     assertEquals(whiteMage.mana, 60)
-    assertEquals(blackMage.name, "Vivi")
+    assertEquals(blackMage.name, "Saruman")
     assertEquals(blackMage.mana, 80)
 
   test("Enemy initializes correctly with attack damage"):
-    assertEquals(enemy.name, "Goblin")
+    assertEquals(enemy.name, "Orco")
     assertEquals(enemy.hp, 80)
     assertEquals(enemy.defense, 10)
     assertEquals(enemy.weight, 14)

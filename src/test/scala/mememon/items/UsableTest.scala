@@ -6,23 +6,17 @@ import mememon.potions.{DefensePotion, HealingPotion, MagicAttackPotion, ManaPot
 import mememon.weapons.{Bow, Dagger, Staff, Sword, Wand}
 
 class UsableTest extends FunSuite:
+  private def nameOf(usable: Usable): String = usable.name
 
-  test("Every weapon and potion can be handled as a Usable"):
-    val usables: List[Usable] = List(
-      Sword("Sword", 10, 5),
-      Dagger("Dagger", 5, 2),
-      Bow("Bow", 8, 3),
-      Wand("Wand", 2, 1, 20),
-      Staff("Staff", 4, 6, 30),
-      HealingPotion("Healing"),
-      DefensePotion("Defense"),
-      ManaPotion("Mana"),
-      MagicAttackPotion("Magic Attack")
-    )
+  test("Every weapon can be handled as a Usable"):
+    assertEquals(nameOf(Sword("Sword", 10, 5)), "Sword")
+    assertEquals(nameOf(Dagger("Dagger", 5, 2)), "Dagger")
+    assertEquals(nameOf(Bow("Bow", 8, 3)), "Bow")
+    assertEquals(nameOf(Wand("Wand", 2, 1, 20)), "Wand")
+    assertEquals(nameOf(Staff("Staff", 4, 6, 30)), "Staff")
 
-    val names = usables.map(usable => usable.name)
-
-    assertEquals(
-      names,
-      List("Sword", "Dagger", "Bow", "Wand", "Staff", "Healing", "Defense", "Mana", "Magic Attack")
-    )
+  test("Every potion can be handled as a Usable"):
+    assertEquals(nameOf(HealingPotion("Healing")), "Healing")
+    assertEquals(nameOf(DefensePotion("Defense")), "Defense")
+    assertEquals(nameOf(ManaPotion("Mana")), "Mana")
+    assertEquals(nameOf(MagicAttackPotion("Magic Attack")), "Magic Attack")

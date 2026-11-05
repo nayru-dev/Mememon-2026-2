@@ -26,13 +26,13 @@ class PlayerTest extends FunSuite:
 
   test("Player can control characters and enemies in the same team"):
     val fallenKnight = Knight("Pepidead", 0, 10, 15)
-    val goblin = Enemy("Goblin", 80, 10, 14, 18)
-    val mixedPlayer = Player("Luigi", List(fallenKnight, goblin))
+    val orc = Enemy("Orco", 80, 10, 14, 18)
+    val mixedPlayer = Player("Luigi", List(fallenKnight, orc))
 
-    assertEquals(mixedPlayer.units, List(fallenKnight, goblin))
+    assertEquals(mixedPlayer.units, List(fallenKnight, orc))
     assertEquals(mixedPlayer.isDefeated, false)
 
-    goblin.takeDamage(80)
+    orc.takeDamage(80)
     assertEquals(mixedPlayer.isDefeated, true)
     
   

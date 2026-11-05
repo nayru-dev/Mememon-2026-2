@@ -51,15 +51,15 @@ class WeaponTest extends FunSuite:
     assertEquals(staff.owner, None)
 
   test("A weapon knows its owner"):
-    val knight = Knight("Arthur", 120, 20, 15)
+    val knight = Knight("Aragorn", 120, 20, 15)
 
     sword.setOwner(knight)
 
     assertEquals(sword.owner, Some(knight))
 
   test("Assigning a new owner replaces the previous one"):
-    val knight = Knight("Arthur", 120, 20, 15)
-    val archer = Archer("Robin", 90, 10, 10)
+    val knight = Knight("Aragorn", 120, 20, 15)
+    val archer = Archer("Legolas", 90, 10, 10)
 
     bow.setOwner(knight)
     bow.setOwner(archer)

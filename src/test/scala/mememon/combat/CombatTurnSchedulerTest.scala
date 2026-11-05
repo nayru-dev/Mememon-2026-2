@@ -15,9 +15,9 @@ class CombatTurnSchedulerTest extends FunSuite:
 
   override def beforeEach(context: BeforeEach): Unit =
     scheduler = CombatTurnScheduler()
-    knight = Knight("Arthur", 100, 20, 15)
-    archer = Archer("Robin", 80, 10, 10)
-    enemy = Enemy("Goblin", 60, 5, 12, 15)
+    knight = Knight("Aragorn", 100, 20, 15)
+    archer = Archer("Legolas", 80, 10, 10)
+    enemy = Enemy("Orco", 60, 5, 12, 15)
     sword = Sword("Buster Sword", 25, 10)
 
   test("Scheduler starts empty"):
