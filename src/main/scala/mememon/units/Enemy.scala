@@ -1,8 +1,6 @@
 package cl.uchile.dcc
 package mememon.units
 
-import mememon.actions.{Action, Source}
-
 /** Represents a non-playable hostile creature on the battlefield.
  *
  * @param name monster name
@@ -12,16 +10,12 @@ import mememon.actions.{Action, Source}
  * @param attack innate physical attack power
  */
 class Enemy(
-             val name: String,
+             name: String,
              initialHp: Int,
-             val defense: Int,
-             val weight: Int,
+             defense: Int,
+             weight: Int,
              val attack: Int
-           ) extends GameUnit:
-  private var _hp: Int = math.max(0, initialHp)
-
-  /** @inheritdoc */
-  def hp: Int = _hp
+           ) extends AbstractGameUnit(name, initialHp, defense, weight):
 
   /** Enemies attack with their innate attack points.
    *
@@ -29,22 +23,8 @@ class Enemy(
    */
   def attackDamage: Int = attack
 
-  /** @inheritdoc */
-  def takeDamage(amount: Int): Unit =
-    val actualDamage = math.max(0, amount)
-    _hp = math.max(0, _hp - actualDamage)
-
-  /** @inheritdoc */
-  def attack(target: GameUnit): Unit =
-    val damage = math.max(0, this.attackDamage - target.defense)
-    target.takeDamage(damage)
-
   /** The action bar of an enemy depends only on its weight.
    *
    * @return the enemy weight
    */
   def maxActionBar: Double = weight.toDouble
-
-  /** @inheritdoc */
-  def receiveAction(action: Action, source: Source): Unit =
-    action.execute(source, this)
