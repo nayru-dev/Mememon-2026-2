@@ -1,6 +1,8 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, Target}
+
 /** Represents a non-playable hostile creature on the battlefield.
  *
  * @param name monster name
@@ -28,3 +30,7 @@ class Enemy(
    * @return the enemy weight
    */
   def maxActionBar: Double = weight.toDouble
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    action.executeByEnemy(this, target)

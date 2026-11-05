@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, Target}
 import mememon.weapons.Weapon
 
 /** Represents a Knight physical unit specialized in defense.
@@ -15,3 +16,7 @@ class Knight(name: String, initialHp: Int, defense: Int, weight: Int)
 
   /** @inheritdoc */
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByKnight
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    action.executeByKnight(this, target)

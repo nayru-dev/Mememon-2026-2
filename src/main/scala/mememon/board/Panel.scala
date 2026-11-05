@@ -1,10 +1,11 @@
 package cl.uchile.dcc
 package mememon.board
 
+import mememon.actions.Target
 import mememon.units.GameUnit
 
 /** Represents a board tile where units can position themselves. */
-trait Panel:
+trait Panel extends Target:
   /** Horizontal coordinate of this panel on the board. */
   val x: Int
 
@@ -17,7 +18,9 @@ trait Panel:
    */
   def units: List[GameUnit]
 
-  /** Places a unit on this panel, ignoring it if it is already here.
+  /** Places a unit on this panel, taking it out of its previous panel.
+   *
+   * It has no effect if the unit is already here.
    *
    * @param unit the unit to place
    */

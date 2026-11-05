@@ -2,11 +2,21 @@ package cl.uchile.dcc
 package mememon.units
 
 import mememon.actions.{Source, Target}
+import mememon.board.Panel
 
 /** Base contract defining the common attributes and behaviors for any combat unit in the game. */
 trait GameUnit extends Source with Target:
-  /** Display name of the unit. */
-  val name: String
+  /** Panel where this unit is located, if any.
+   *
+   * @return the current panel, or None if the unit is not on the board
+   */
+  def currentPanel: Option[Panel]
+
+  /** Registers the panel where this unit is now located.
+   *
+   * @param panel the new location, or None if the unit left the board
+   */
+  def setCurrentPanel(panel: Option[Panel]): Unit
 
   /** Current health points of the unit.
    *

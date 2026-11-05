@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, Target}
 import mememon.weapons.Weapon
 
 /** Represents a Thief physical unit specialized in agility.
@@ -15,3 +16,7 @@ class Thief(name: String, initialHp: Int, defense: Int, weight: Int)
 
   /** @inheritdoc */
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByThief
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    action.executeByThief(this, target)

@@ -55,6 +55,31 @@ class PanelTest extends FunSuite:
 
     assertEquals(panel1.units, List(knight))
 
+  test("A unit knows the panel where it was placed"):
+    assertEquals(knight.currentPanel, None)
+
+    panel1.addUnit(knight)
+    assertEquals(knight.currentPanel, Some(panel1))
+
+    panel1.removeUnit(knight)
+    assertEquals(knight.currentPanel, None)
+
+  test("Placing a unit on another panel takes it out of the previous one"):
+    panel1.addUnit(knight)
+
+    panel2.addUnit(knight)
+
+    assertEquals(panel1.units, List.empty)
+    assertEquals(panel2.units, List(knight))
+    assertEquals(knight.currentPanel, Some(panel2))
+
+  test("Removing a unit that is on another panel keeps its location"):
+    panel1.addUnit(knight)
+
+    panel2.removeUnit(knight)
+
+    assertEquals(knight.currentPanel, Some(panel1))
+
   test("Units on a panel do not affect other panels"):
     panel1.addUnit(knight)
 

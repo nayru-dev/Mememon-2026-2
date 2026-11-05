@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, Target}
 import mememon.weapons.Weapon
 
 /** Represents a Black Mage unit specializing in offensive destructive spells.
@@ -16,3 +17,7 @@ class BlackMage(name: String, initialHp: Int, defense: Int, weight: Int, mana: I
 
   /** @inheritdoc */
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByBlackMage
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    action.executeByBlackMage(this, target)

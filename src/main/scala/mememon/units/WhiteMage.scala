@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.units
 
+import mememon.actions.{Action, Target}
 import mememon.weapons.Weapon
 
 /** Represents a White Mage unit specializing in restorative magic.
@@ -16,3 +17,7 @@ class WhiteMage(name: String, initialHp: Int, defense: Int, weight: Int, mana: I
 
   /** @inheritdoc */
   protected def canEquip(weapon: Weapon): Boolean = weapon.canBeEquippedByWhiteMage
+
+  /** @inheritdoc */
+  def doAction(action: Action, target: Target): Unit =
+    action.executeByWhiteMage(this, target)

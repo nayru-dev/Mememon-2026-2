@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.board
 
+import mememon.actions.AbstractTarget
 import mememon.units.GameUnit
 import mememon.exceptions.InvalidMovementException
 
@@ -9,7 +10,7 @@ import mememon.exceptions.InvalidMovementException
  * @param x horizontal coordinate of the panel
  * @param y vertical coordinate of the panel
  */
-abstract class AbstractPanel(val x: Int, val y: Int) extends Panel:
+abstract class AbstractPanel(val x: Int, val y: Int) extends AbstractTarget with Panel:
   private var _units: List[GameUnit] = List.empty
   private var _nextPanels: List[Panel] = List.empty
 
@@ -19,11 +20,17 @@ abstract class AbstractPanel(val x: Int, val y: Int) extends Panel:
   /** @inheritdoc */
   def addUnit(unit: GameUnit): Unit =
     if !_units.contains(unit) then
+      unit.currentPanel match
+        case Some(previous) => previous.removeUnit(unit)
+        case None           => ()
       _units = unit :: _units
+      unit.setCurrentPanel(Some(this))
 
   /** @inheritdoc */
   def removeUnit(unit: GameUnit): Unit =
-    _units = _units.filter(current => current != unit)
+    if _units.contains(unit) then
+      _units = _units.filter(current => current != unit)
+      unit.setCurrentPanel(None)
 
   /** @inheritdoc */
   def nextPanels: List[Panel] = _nextPanels
@@ -39,5 +46,10 @@ abstract class AbstractPanel(val x: Int, val y: Int) extends Panel:
       throw new InvalidMovementException("The target panel is not adjacent to the current panel.")
     if !_units.contains(unit) then
       throw new InvalidMovementException(s"${unit.name} is not on this panel.")
-    removeUnit(unit)
     target.addUnit(unit)
+
+  /** @inheritdoc */
+  override def receiveMove(source: GameUnit): Unit =
+    source.currentPanel match
+      case Some(origin) => origin.moveUnit(source, this)
+      case None         => throw new InvalidMovementException(s"${source.name} is not on the board.")
