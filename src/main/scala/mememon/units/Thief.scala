@@ -8,7 +8,7 @@ import mememon.weapons.Weapon
  *
  * @param name unit name
  * @param initialHp starting health points
- * @param defense defensive threshold
+ * @param defense physical defense value
  * @param weight character weight
  */
 class Thief(name: String, initialHp: Int, defense: Int, weight: Int)

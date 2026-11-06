@@ -6,7 +6,7 @@ import mememon.units.Character
 
 /** Abstract base implementation for potion items.
  *
- * @param name unique name identifier of the potion
+ * @param name display name of the potion
  */
 abstract class AbstractPotion(val name: String)
   extends AbstractTarget with Potion:

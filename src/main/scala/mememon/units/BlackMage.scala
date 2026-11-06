@@ -9,7 +9,7 @@ import mememon.weapons.Weapon
  *
  * @param name unit name
  * @param initialHp starting health points
- * @param defense defensive threshold
+ * @param defense physical defense value
  * @param weight character weight
  * @param mana starting mana pool
  */

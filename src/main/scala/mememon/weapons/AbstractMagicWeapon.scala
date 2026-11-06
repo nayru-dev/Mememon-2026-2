@@ -3,9 +3,9 @@ package mememon.weapons
 
 /** Abstract base implementation for weapons possessing magical damage.
  *
- * @param name unique name of the weapon
+ * @param name display name of the weapon
  * @param attack physical attack power
- * @param weight weight threshold of the weapon
+ * @param weight weight of the weapon
  * @param magicAttack magical damage capability
  */
 abstract class AbstractMagicWeapon(

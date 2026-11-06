@@ -7,9 +7,9 @@ import mememon.units.Character
 
 /** Abstract base implementation for physical weapons.
  *
- * @param name unique name of the weapon
+ * @param name display name of the weapon
  * @param attack physical attack power
- * @param weight weight threshold of the weapon
+ * @param weight weight of the weapon
  */
 abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int)
   extends AbstractTarget with Weapon:
