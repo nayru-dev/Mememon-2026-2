@@ -10,7 +10,7 @@ import mememon.units.MagicCharacter
  * @param name display name of the spell
  * @param manaCost mana points the spell costs
  */
-abstract class AbstractSpell(name: String, val manaCost: Int) extends AbstractAction(name):
+abstract class AbstractSpell(name: String, manaCost: Int) extends AbstractAction(name):
 
   /** Validates the requirements, applies the effect and only then pays for the spell.
    *

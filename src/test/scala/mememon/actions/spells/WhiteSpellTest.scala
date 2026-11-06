@@ -25,11 +25,9 @@ class WhiteSpellTest extends FunSuite:
     panel = NormalPanel(1, 1)
     gandalf.equip(Staff("Bakulon", 14, 12, 25))
 
-  test("White spells know their name and cost"):
+  test("White spells know their name"):
     assertEquals(healing.name, "Healing")
-    assertEquals(healing.manaCost, 15)
     assertEquals(purification.name, "Purification")
-    assertEquals(purification.manaCost, 25)
 
   test("Only the white mage has the white spells"):
     assertEquals(gandalf.findAction("Healing").get.name, "Healing")

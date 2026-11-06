@@ -27,11 +27,9 @@ class BlackSpellTest extends FunSuite:
     panel = NormalPanel(1, 1)
     saruman.equip(staff)
 
-  test("Black spells know their name and cost"):
+  test("Black spells know their name"):
     assertEquals(thunder.name, "Thunder")
-    assertEquals(thunder.manaCost, 20)
     assertEquals(meteor.name, "Meteor")
-    assertEquals(meteor.manaCost, 50)
 
   test("Only the black mage has the black spells"):
     assertEquals(saruman.findAction("Thunder").get.name, "Thunder")

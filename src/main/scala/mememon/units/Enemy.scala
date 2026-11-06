@@ -16,7 +16,7 @@ class Enemy(
              initialHp: Int,
              defense: Int,
              weight: Int,
-             val attack: Int
+             attack: Int
            ) extends AbstractGameUnit(name, initialHp, defense, weight):
 
   /** Enemies attack with their innate attack points.
