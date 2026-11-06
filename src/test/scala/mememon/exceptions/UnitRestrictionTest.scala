@@ -123,6 +123,19 @@ class UnitRestrictionTest extends FunSuite:
     assertEquals(exception.getMessage, "Aragorn needs a weapon to attack.")
     assertEquals(orco.hp, 80)
 
+  test("A unit cannot attack itself"):
+    val exception = intercept[InvalidActionException](orco.doAction(attack, orco))
+
+    assertEquals(exception.getMessage, "Orco cannot attack itself.")
+    assertEquals(orco.hp, 80)
+
+  test("An armed character cannot attack itself either"):
+    aragorn.equip(Sword("Master Sword", 35, 10))
+
+    intercept[InvalidActionException](aragorn.doAction(attack, aragorn))
+
+    assertEquals(aragorn.hp, 120)
+
   test("Enemies do not need a weapon to attack"):
     orco.doAction(attack, legolas)
 

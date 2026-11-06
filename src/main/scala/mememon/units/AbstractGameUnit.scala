@@ -3,7 +3,7 @@ package mememon.units
 
 import mememon.actions.{AbstractTarget, Action, AttackAction, MoveAction, Target}
 import mememon.board.Panel
-import mememon.exceptions.InvalidUnitStateException
+import mememon.exceptions.{InvalidActionException, InvalidUnitStateException}
 
 /** Abstract implementation of the state and behavior shared by characters and enemies.
  *
@@ -90,6 +90,8 @@ abstract class AbstractGameUnit(
 
   /** @inheritdoc */
   override def receiveAttack(source: GameUnit): Unit =
+    if source == this then
+      throw new InvalidActionException(s"$name cannot attack itself.")
     requireAliveToReceive()
     source.attack(this)
 

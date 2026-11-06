@@ -67,5 +67,6 @@ Cada jerarquía separa un `trait`, una `abstract class` y una `class` concreta.
 - Los hechizos ignoran la defensa, y Meteorito también daña a aliados y al mago si están en el panel.
 - Curación no revive a una unidad derrotada.
 - `reset` vacía la partida, sin restaurar las unidades.
+- Una unidad no puede atacarse a sí misma, pero los equipos no se validan: también puede atacar a un aliado.
 
 
