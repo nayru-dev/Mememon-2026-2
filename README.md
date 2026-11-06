@@ -31,3 +31,42 @@ El trabajo a lo largo del semestre será evaluado principalmente en base a los s
 1. Lean detenidamente el enunciado principal del proyecto.
 2. Exploren este código base. Encontrarán una clase inicial `GameController` en el paquete `controller` desde la cual podrán comenzar a articular su lógica.
 3. Asegúrense de usar herramientas de control de versiones (Git) de manera constante, documentando adecuadamente sus avances mediante *commits*.
+
+---
+
+# Mi implementación
+
+*Lo anterior corresponde a la plantilla del curso. Desde aquí se describe mi proyecto.*
+
+## Organización del código
+
+- `controller`: `GameController`, maneja los turnos y ejecuta las acciones.
+- `mememon.units`: personajes y enemigos.
+- `mememon.items`, `mememon.weapons`, `mememon.potions`: utilizables.
+- `mememon.actions`, `mememon.actions.spells`: fuentes, objetivos, acciones y hechizos.
+- `mememon.board`, `mememon.combat`, `mememon.players`, `mememon.exceptions`: paneles, turnos, jugadores y excepciones.
+
+Cada jerarquía separa un `trait`, una `abstract class` y una `class` concreta.
+
+## Decisiones de diseño
+
+- **Personajes y enemigos son tipos distintos:** comparten `GameUnit`, pero el dueño de un arma es un `Character`, así el compilador impide que un enemigo tenga armas como pide el enunciado.
+- **Double Dispatch:** se usa en las acciones y al equipar armas.
+  Lo que pasa depende de quién actúa, qué hace y quién lo recibe, y así evito usar `isInstanceOf`.
+- **Todo prohibido por defecto:** cada clase solo define lo que sí puede hacer.
+  Por ejemplo, un enemigo no recibe Curación porque no define esa acción.
+- **Template Method:** los hechizos siguen los mismos pasos, así que están una sola vez en `AbstractSpell`.
+  Cada hechizo solo define su efecto.
+- **Una acción fallida no cambia nada:** primero se revisan las reglas y después se aplica el efecto.
+  `GameController` captura el error y mantiene el turno, así cumpliendo con lo que piden.
+
+## Decisiones donde el enunciado da libertad
+
+- Fortaleza aumenta la defensa de forma permanente.
+- Una poción mágica consumida por un personaje no mágico lanza una excepción y no se pierde.
+- Los hechizos ignoran la defensa, y Meteorito también daña a aliados y al mago si están en el panel.
+- Curación no revive a una unidad derrotada.
+- `reset` vacía la partida, sin restaurar las unidades.
+- Una unidad no puede atacarse a sí misma, pero los equipos no se validan: también puede atacar a un aliado.
+
+
