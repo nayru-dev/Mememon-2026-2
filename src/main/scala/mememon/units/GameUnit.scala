@@ -3,9 +3,17 @@ package mememon.units
 
 import mememon.actions.{Source, Target}
 import mememon.board.Panel
+import mememon.events.UnitDefeated
+import mememon.observers.Subject
 
 /** Base contract defining the common attributes and behaviors for any combat unit in the game. */
 trait GameUnit extends Source with Target:
+  /** Subject that announces when this unit is defeated.
+   *
+   * @return the subject to attach observers of this unit's defeat
+   */
+  def defeatPublisher: Subject[UnitDefeated]
+
   /** Panel where this unit is located, if any.
    *
    * @return the current panel, or None if the unit is not on the board
@@ -58,6 +66,7 @@ trait GameUnit extends Source with Target:
   def attackDamage: Int
 
   /** Reduces the unit's health points by an incoming damage value, without dropping below zero.
+   * If this damage defeats the unit, its [[defeatPublisher]] notifies it once.
    *
    * @param amount quantity of damage to apply
    */

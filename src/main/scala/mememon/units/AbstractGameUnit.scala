@@ -4,6 +4,9 @@ package mememon.units
 import mememon.actions.{AbstractTarget, Action, AttackAction, MoveAction, Target}
 import mememon.board.Panel
 import mememon.exceptions.{InvalidActionException, InvalidUnitStateException}
+import mememon.events.UnitDefeated
+import mememon.observers.Subject
+import mememon.publishers.DefeatPublisher
 
 /** Abstract implementation of the state and behavior shared by characters and enemies.
  *
@@ -23,6 +26,10 @@ abstract class AbstractGameUnit(
   private var _defense: Int = initialDefense
   private var _currentPanel: Option[Panel] = None
   private val _actions: List[Action] = List(new AttackAction, new MoveAction)
+  private val _defeatPublisher: DefeatPublisher = new DefeatPublisher
+
+  /** @inheritdoc */
+  def defeatPublisher: Subject[UnitDefeated] = _defeatPublisher
 
   /** @inheritdoc */
   def actions: List[Action] = _actions
@@ -80,8 +87,11 @@ abstract class AbstractGameUnit(
 
   /** @inheritdoc */
   def takeDamage(amount: Int): Unit =
+    val wasAlive = _hp > 0
     val actualDamage = math.max(0, amount)
     _hp = math.max(0, _hp - actualDamage)
+    if wasAlive && _hp == 0 then
+      _defeatPublisher.notifyObservers(new UnitDefeated(this))
 
   /** @inheritdoc */
   def attack(target: GameUnit): Unit =
