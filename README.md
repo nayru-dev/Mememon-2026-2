@@ -40,13 +40,14 @@ El trabajo a lo largo del semestre será evaluado principalmente en base a los s
 
 ## Organización del código
 
-- `controller`: `GameController`, maneja los turnos y ejecuta las acciones.
+- `controller`: `GameController`, maneja los turnos, ejecuta las acciones y detecta el fin del juego; `DefeatHandler` le avisa cuando cae una unidad.
 - `mememon.units`: personajes y enemigos.
 - `mememon.items`, `mememon.weapons`, `mememon.potions`: utilizables.
 - `mememon.actions`, `mememon.actions.spells`: fuentes, objetivos, acciones y hechizos.
 - `mememon.board`, `mememon.combat`, `mememon.players`, `mememon.exceptions`: paneles, turnos, jugadores y excepciones.
+- `mememon.observers`, `mememon.events`, `mememon.publishers`: patrón Observer, eventos y publicadores.
 
-Cada jerarquía separa un `trait`, una `abstract class` y una `class` concreta.
+Cada jerarquía separa un `trait`, una clase base y una `class` concreta.
 
 ## Decisiones de diseño
 
@@ -59,6 +60,13 @@ Cada jerarquía separa un `trait`, una `abstract class` y una `class` concreta.
   Cada hechizo solo define su efecto.
 - **Una acción fallida no cambia nada:** primero se revisan las reglas y después se aplica el efecto.
   `GameController` captura el error y mantiene el turno, así cumpliendo con lo que piden.
+- **Observer para el fin del juego:** cuando el HP de una unidad llega a 0, su `DefeatPublisher` envía un evento `UnitDefeated`.
+  `GameController` lo recibe mediante un `DefeatHandler` y revisa si cayó un equipo completo, sin revisar los HP después de cada acción.
+  Así las unidades nunca conocen al controlador, solo la interfaz `Observer`.
+- **Composición en vez de herencia para notificar:** las unidades ya heredan de `AbstractTarget`, así que no pueden heredar de `BaseSubject`.
+  Por eso cada unidad *tiene* un `DefeatPublisher`, como en el ejemplo Tamagotchi del curso.
+  `BaseSubject` tiene constructor `protected` en vez de ser `abstract`, porque ya está completa: se hereda para reutilizarla, no para rellenarla.
+- **Un evento propio y un handler:** el tipo `UnitDefeated` dice qué ocurrió, y el `DefeatHandler` permite que el controlador escuche más eventos en el futuro sin cambiar su jerarquía.
 
 ## Decisiones donde el enunciado da libertad
 
@@ -68,5 +76,8 @@ Cada jerarquía separa un `trait`, una `abstract class` y una `class` concreta.
 - Curación no revive a una unidad derrotada.
 - `reset` vacía la partida, sin restaurar las unidades.
 - Una unidad no puede atacarse a sí misma, pero los equipos no se validan: también puede atacar a un aliado.
+- El juego termina apenas un equipo completo cae, incluso si la derrota ocurre fuera de una acción.
+  Desde ese momento ninguna unidad tiene turno y toda acción falla con el mensaje de fin.
+- Si Meteorito derrota a los dos equipos a la vez, el mensaje indica que ningún equipo sobrevivió.
 
 
