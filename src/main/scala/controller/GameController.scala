@@ -5,10 +5,13 @@ import mememon.actions.{Action, Target}
 import mememon.combat.{CombatTurnScheduler, TurnScheduler}
 import mememon.events.UnitDefeated
 import mememon.exceptions.InvalidActionException
+import mememon.factories.units.{ArcherFactory, BlackMageFactory, EnemyFactory, KnightFactory}
+import mememon.factories.units.{ThiefFactory, UnitFactory, WhiteMageFactory}
 import mememon.observers.Subject
 import mememon.players.Player
 import mememon.units.GameUnit
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 
 /** Main controller of the game.
  *
@@ -39,6 +42,27 @@ class GameController(barIncrement: Double = 1.0):
     for unit <- player.units do
       addUnit(unit)
       unit.defeatPublisher.attach(_defeatHandler)
+
+  /** Starts a new game with two random teams of the same size, created through the unit factories.
+   *
+   * The current game is reset first. The "Heroes" team gets random kinds of characters, each one
+   * with a random weapon equipped and random potions; the "Enemies" team gets enemies with random stats.
+   *
+   * @param teamSize number of units of each team
+   * @param random generator used to pick the units and their resources; a fixed seed makes the game repeatable
+   * @throws IllegalArgumentException if the team size is not positive
+   */
+  def startRandomGame(teamSize: Int, random: Random = new Random()): Unit =
+    if teamSize <= 0 then
+      throw new IllegalArgumentException(s"The team size must be positive: $teamSize")
+    reset()
+    val characterFactories: List[UnitFactory] = List(
+      new KnightFactory(random), new ArcherFactory(random), new ThiefFactory(random),
+      new BlackMageFactory(random), new WhiteMageFactory(random)
+    )
+    val enemyFactories: List[UnitFactory] = List(new EnemyFactory(random))
+    addPlayer(new Player("Heroes", createTeam(characterFactories, teamSize, random)))
+    addPlayer(new Player("Enemies", createTeam(enemyFactories, teamSize, random)))
 
   /** Returns the registered teams.
    *
@@ -161,6 +185,12 @@ class GameController(barIncrement: Double = 1.0):
           case e: InvalidActionException =>
             _lastError = Some(e.getMessage)
             false
+
+  private def createTeam(factories: List[UnitFactory], size: Int, random: Random): List[GameUnit] =
+    val team = ArrayBuffer.empty[GameUnit]
+    for i <- 1 to size do
+      team += factories(random.nextInt(factories.length)).make()
+    team.toList
 
   private def endTurn(unit: GameUnit): Unit =
     _scheduler.resetActionBar(unit)
