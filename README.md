@@ -46,6 +46,7 @@ El trabajo a lo largo del semestre será evaluado principalmente en base a los s
 - `mememon.actions`, `mememon.actions.spells`: fuentes, objetivos, acciones y hechizos.
 - `mememon.board`, `mememon.combat`, `mememon.players`, `mememon.exceptions`: paneles, turnos, jugadores y excepciones.
 - `mememon.observers`, `mememon.events`, `mememon.publishers`: patrón Observer, eventos y publicadores.
+- `mememon.factories` (`weapons`, `potions`, `units`): patrón Factory para crear armas, pociones, personajes y enemigos.
 
 Cada jerarquía separa un `trait`, una clase base y una `class` concreta.
 
@@ -67,6 +68,16 @@ Cada jerarquía separa un `trait`, una clase base y una `class` concreta.
   Por eso cada unidad *tiene* un `DefeatPublisher`, como en el ejemplo Tamagotchi del curso.
   `BaseSubject` tiene constructor `protected` en vez de ser `abstract`, porque ya está completa: se hereda para reutilizarla, no para rellenarla.
 - **Un evento propio y un handler:** el tipo `UnitDefeated` dice qué ocurrió, y el `DefeatHandler` permite que el controlador escuche más eventos en el futuro sin cambiar su jerarquía.
+- **Factory para crear el juego:** el `GameController` no hace `new` de ninguna unidad ni objeto.
+  Con `startRandomGame` arma los bandos "Heroes" y "Enemies" pidiéndole `make()` a fábricas elegidas al azar, y solo conoce el trait `UnitFactory`.
+- **Quién es cliente de quién:** el `GameController` es cliente de las fábricas de unidades.
+  Las fábricas de personajes son clientes de las fábricas de armas y pociones: a cada personaje le equipan un arma y le dan pociones.
+- **Armas válidas sin preguntar por el tipo:** cada fábrica de personaje solo conoce las fábricas de las armas que su personaje puede equipar según la tabla.
+  Así nunca intenta equipar un arma inválida.
+- **Template Method en las fábricas de personajes:** `AbstractCharacterFactory.make()` siempre crea el personaje, le equipa un arma y le da pociones.
+  Cada fábrica concreta solo define cómo crear su personaje y qué armas usa; los dos magos comparten lo suyo en `AbstractMagicCharacterFactory`.
+- **El azar se recibe por constructor:** todas las fábricas reciben un `Random` y comparten `randomBetween` en `AbstractRandomFactory`.
+  En los tests se usa una semilla fija, así un mismo juego se puede repetir.
 
 ## Decisiones donde el enunciado da libertad
 
@@ -79,5 +90,11 @@ Cada jerarquía separa un `trait`, una clase base y una `class` concreta.
 - El juego termina apenas un equipo completo cae, incluso si la derrota ocurre fuera de una acción.
   Desde ese momento ninguna unidad tiene turno y toda acción falla con el mensaje de fin.
 - Si Meteorito derrota a los dos equipos a la vez, el mensaje indica que ningún equipo sobrevivió.
+- Desequipar deja el arma en el inventario y sin dueño; al cambiar de arma, la anterior también queda sin dueño.
+- Cada arma y unidad creada por una fábrica tiene estadísticas aleatorias dentro de un rango fijo, escrito en el Scaladoc de su fábrica.
+  Las pociones no tienen estadísticas, así que lo aleatorio es cuáles y cuántas recibe cada personaje (entre 1 y 3).
+- Los magos solo reciben varas o bastones, para que siempre puedan lanzar hechizos.
+  Los personajes no mágicos solo reciben pociones de Curación y Fortaleza, porque las mágicas no les sirven.
+- Los dos bandos de un juego aleatorio tienen el mismo tamaño, y empezar uno nuevo reinicia el anterior.
 
 
