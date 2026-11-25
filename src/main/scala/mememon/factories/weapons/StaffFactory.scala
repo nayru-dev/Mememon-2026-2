@@ -1,6 +1,7 @@
 package cl.uchile.dcc
 package mememon.factories.weapons
 
+import mememon.factories.AbstractRandomFactory
 import mememon.weapons.Staff
 import scala.util.Random
 
@@ -8,7 +9,7 @@ import scala.util.Random
  *
  * @param random generator used to pick the stats
  */
-class StaffFactory(random: Random) extends AbstractWeaponFactory(random):
+class StaffFactory(random: Random) extends AbstractRandomFactory(random) with WeaponFactory:
 
   /** Creates a new staff with random stats.
    *

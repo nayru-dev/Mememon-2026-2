@@ -1,13 +1,13 @@
 package cl.uchile.dcc
-package mememon.factories.weapons
+package mememon.factories
 
 import scala.util.Random
 
-/** Abstract base for weapon factories, sharing the random generator used for the stats.
+/** Abstract base for factories that pick random values, sharing the random generator.
  *
- * @param random generator used to pick the stats; a fixed seed makes the results repeatable
+ * @param random generator used to pick the values; a fixed seed makes the results repeatable
  */
-abstract class AbstractWeaponFactory(random: Random) extends WeaponFactory:
+abstract class AbstractRandomFactory(random: Random):
 
   /** Picks a random number inside a range, both limits included.
    *
