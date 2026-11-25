@@ -132,3 +132,54 @@ class EquipWeaponTest extends FunSuite:
 
     assertEquals(knight.attackDamage, 5)
     assertEquals(knight.maxActionBar, 16.0)
+
+  test("Unequipping leaves the character without weapon and the weapon without owner"):
+    knight.equip(sword)
+
+    knight.unequip()
+
+    assertEquals(knight.currentWeapon, None)
+    assertEquals(sword.owner, None)
+
+  test("Unequipping without a weapon has no effect"):
+    knight.unequip()
+
+    assertEquals(knight.currentWeapon, None)
+
+  test("An unequipped character cannot attack"):
+    knight.equip(sword)
+    knight.unequip()
+
+    intercept[InvalidRequirementException](knight.attack(enemy))
+    assertEquals(knight.attackDamage, 0)
+    assertEquals(enemy.hp, 80)
+
+  test("Unequipping restores the action bar to the character weight"):
+    knight.equip(sword)
+    knight.unequip()
+
+    assertEquals(knight.maxActionBar, 15.0)
+
+  test("Unequipping keeps the weapon in the inventory so it can be equipped again"):
+    knight.addToInventory(sword)
+    knight.equip(sword)
+    knight.unequip()
+
+    assertEquals(knight.inventory, List(sword))
+    knight.equip(sword)
+    assertEquals(knight.currentWeapon, Some(sword))
+    assertEquals(sword.owner, Some(knight))
+
+  test("Replacing a weapon leaves the previous one without owner"):
+    knight.equip(sword)
+    knight.equip(dagger)
+
+    assertEquals(sword.owner, None)
+    assertEquals(dagger.owner, Some(knight))
+
+  test("Failing to equip keeps the previous weapon owned"):
+    knight.equip(sword)
+
+    intercept[InvalidRequirementException](knight.equip(wand))
+
+    assertEquals(sword.owner, Some(knight))
