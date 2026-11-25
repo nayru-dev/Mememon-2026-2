@@ -67,8 +67,16 @@ abstract class AbstractCharacter(
   def equip(weapon: Weapon): Unit =
     if !canEquip(weapon) then
       throw new InvalidRequirementException(s"$name cannot equip ${weapon.name}.")
+    unequip()
     _currentWeapon = Some(weapon)
     weapon.setOwner(this)
+
+  /** @inheritdoc */
+  def unequip(): Unit =
+    _currentWeapon match
+      case Some(weapon) => weapon.removeOwner()
+      case None         => ()
+    _currentWeapon = None
 
   /** Asks the weapon whether this kind of character can equip it.
    *

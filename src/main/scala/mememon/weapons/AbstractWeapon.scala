@@ -35,6 +35,10 @@ abstract class AbstractWeapon(val name: String, val attack: Int, val weight: Int
     _owner = Some(character)
 
   /** @inheritdoc */
+  def removeOwner(): Unit =
+    _owner = None
+
+  /** @inheritdoc */
   def canBeEquippedByKnight: Boolean = false
 
   /** @inheritdoc */

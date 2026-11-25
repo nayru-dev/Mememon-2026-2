@@ -24,6 +24,9 @@ trait Weapon extends Usable:
    */
   def setOwner(character: Character): Unit
 
+  /** Leaves this weapon without an owner. */
+  def removeOwner(): Unit
+
   /** Returns the magical power this weapon gives to spells.
    *
    * @return the magical attack points of the weapon

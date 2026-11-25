@@ -37,6 +37,11 @@ trait Character extends GameUnit:
    */
   def equip(weapon: Weapon): Unit
 
+  /** Removes the equipped weapon, which stays in the inventory without an owner.
+   * It has no effect if the character has no weapon.
+   */
+  def unequip(): Unit
+
   /** Restores a percentage of the maximum mana points.
    *
    * @param percent percentage of the maximum mana to restore
